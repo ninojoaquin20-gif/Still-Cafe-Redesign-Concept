@@ -1,0 +1,1138 @@
+/* ==========================================================
+   STIILL CAFÉ (Unofficial Redesign Concept)
+   style.css
+   ========================================================== */
+
+/* ---------- 1. DESIGN TOKENS (CSS custom properties) ---------- */
+:root {
+  /* Colors */
+  --color-black: #120c09;
+  --color-espresso: #1f140f;
+  --color-coffee: #3b2418;
+  --color-roast: #5a3a28;
+  --color-caramel: #b88a5a;
+  --color-beige: #e6d5b8;
+  --color-cream: #f5ecdc;
+
+  /* Fonts */
+  --font-heading: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-accent: "Saira Extra Condensed", "Jura", sans-serif;
+
+  /* Spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 3rem;
+  --space-xl: 5rem;
+
+  /* Layout and effects */
+  --container-width: 1300px;
+  --transition: 0.3s ease;
+}
+
+/* ---------- 2. RESET AND BASE STYLES ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-cream);
+  background-color: var(--color-espresso);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+h1, h2, h3 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---------- 3. REUSABLE LAYOUT CLASSES ---------- */
+.container {
+  width: min(100% - 2.5rem, var(--container-width));
+  margin-inline: auto;
+}
+
+/* ---------- 4. BUTTONS ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1.75rem;
+  border: 1px solid var(--color-cream);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background-color var(--transition), color var(--transition),
+    border-color var(--transition);
+}
+
+.btn-primary {
+  background-color: var(--color-cream);
+  color: var(--color-black);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-caramel);
+  border-color: var(--color-caramel);
+}
+
+.btn-outline {
+  background-color: rgba(18, 12, 9, 0.35);
+  border-color: rgba(245, 236, 220, 0.6);
+  color: var(--color-cream);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-cream);
+  border-color: var(--color-cream);
+  color: var(--color-black);
+}
+
+.btn-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+/* ---------- 5. ACCESSIBILITY ---------- */
+/* Visible focus ring for keyboard users (Tab key) */
+:focus-visible {
+  outline: 3px solid var(--color-caramel);
+  outline-offset: 3px;
+}
+
+/* "Skip to content" link, hidden until focused */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: var(--space-sm);
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--color-cream);
+  color: var(--color-black);
+}
+
+.skip-link:focus {
+  top: var(--space-sm);
+}
+
+/* ---------- 6. NAVIGATION ---------- */
+.site-header {
+  position: absolute;          /* floats over the hero */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: rgba(18, 12, 9, 0.55);   /* dark, see-through */
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(245, 236, 220, 0.15);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-block: 1.5rem;
+}
+
+.logo img {
+  height: 3.25rem;     /* logo size: raise it for bigger, lower it for smaller */
+  width: auto;         /* keeps the original proportions */
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) 2.5rem;
+}
+
+.nav-list a {
+  padding-block: 0.35rem;
+  border-bottom: 2px solid transparent;
+  transition: border-color var(--transition);
+}
+
+.nav-list a:hover {
+  border-bottom-color: var(--color-caramel);
+}
+
+.nav-list a[aria-current="page"] {
+  border-bottom-color: var(--color-cream);
+}
+
+/* ---------- 7. HERO ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-block: 9rem 5rem;
+  background-color: var(--color-coffee);
+}
+
+/* Layer 1: the photo (sharp, no blur) */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../images/hero.png");
+  background-size: cover;
+  background-position: center 40%;
+}
+
+/* Layer 2: dark overlay: heavy on the left for text, light on the right so the sign glows */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(18, 12, 9, 0.92) 0%, rgba(18, 12, 9, 0.7) 35%, rgba(18, 12, 9, 0.1) 70%),
+    linear-gradient(to bottom, rgba(18, 12, 9, 0.55) 0%, transparent 25%);
+}
+
+/* Layer 3: the text */
+.hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-content {
+  max-width: 42rem;
+}
+
+.hero-eyebrow {
+  margin-bottom: 2rem;
+  color: var(--color-beige);
+}
+
+.nav-list a,
+.hero-eyebrow {
+  font-family: var(--font-accent);
+  font-weight: 400;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin-bottom: 1.75rem;
+  font-family: var(--font-accent);
+  font-size: clamp(3.5rem, 9vw, 7rem);   /* bigger, because condensed fonts run narrow */
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;             /* delete this line for normal capitalization */
+}
+
+.hero-text {
+  max-width: 28rem;
+  margin-bottom: 2.5rem;
+  font-family: var(--font-accent);
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+/* ---------- 8. RESPONSIVE: PHONES ---------- */
+@media (max-width: 640px) {
+  .logo img {
+    height: 2.75rem;
+  }
+
+  .nav {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .nav-list {
+    justify-content: center;
+  }
+
+  .hero {
+    padding-top: 10rem;
+  }
+}
+
+/* ==========================================================
+   9. MENU PAGE
+   ========================================================== */
+
+html {
+  scroll-behavior: smooth;   /* smooth jump when a sidebar link is clicked */
+}
+
+.menu-page {
+  --header-h: 4.5rem;        /* height of the sticky top nav */
+  --strip-h: 3.5rem;         /* height of the category strip (tablet/phone) */
+  background-color: var(--color-cream);
+  color: var(--color-espresso);
+}
+
+/* ---------- Top nav (dark, sticky) ---------- */
+.menu-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: rgba(18, 12, 9, 0.96);
+  border-bottom: 1px solid rgba(245, 236, 220, 0.15);
+  color: var(--color-cream);
+}
+
+.menu-header .nav {
+  min-height: var(--header-h);
+  padding-block: 0.5rem;
+}
+
+.menu-header .logo img {
+  height: 2.75rem;
+}
+
+/* ---------- Sidebar (a horizontal strip on small screens) ---------- */
+.menu-sidebar {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;                 /* strip scrolls sideways if it must */
+  padding: 0.5rem 1.25rem;
+  background-color: var(--color-beige);
+  border-bottom: 1px solid rgba(59, 36, 24, 0.2);
+}
+
+.sidebar-title {
+  display: none;                    /* shown only on desktop */
+  font-family: var(--font-accent, var(--font-body));
+  font-size: 0.95rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-roast);
+}
+
+.sidebar-list {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.sidebar-list a {
+  display: block;
+  padding: 0.6rem 1rem;
+  border: 1px solid transparent;
+  color: #6b5d52;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color var(--transition), color var(--transition),
+    border-color var(--transition);
+}
+
+.sidebar-list a:hover {
+  color: var(--color-coffee);
+}
+
+/* Active category (the class is added by js/main.js) */
+.sidebar-list a.is-active {
+  background-color: transparent;
+  color: var(--color-coffee);               /* deep coffee brown */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.4em;
+}
+
+/* ---------- Main content ---------- */
+.menu-main {
+  padding: 2.5rem 1.25rem 3rem;
+}
+
+.menu-intro {
+  max-width: 40rem;
+  margin-bottom: 3.5rem;
+}
+
+.menu-eyebrow {
+  margin-bottom: 0.75rem;
+  font-family: var(--font-accent, var(--font-body));
+  font-size: 1rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-roast);
+}
+
+.menu-intro h1 {
+  margin-bottom: 1rem;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 500;
+}
+
+.menu-intro p {
+  color: var(--color-roast);
+}
+
+.menu-note {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--color-caramel);
+  background-color: rgba(184, 138, 90, 0.15);
+  font-size: 0.9rem;
+}
+
+/* ---------- Sections ---------- */
+.menu-section {
+  /* when a sidebar link scrolls here, stop below the sticky bars */
+  scroll-margin-top: calc(var(--header-h) + var(--strip-h) + 1.5rem);
+  margin-bottom: 4.5rem;
+}
+
+.section-head {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(59, 36, 24, 0.25);   /* the thin divider */
+}
+
+.section-head h2 {
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section-head p {
+  margin-top: 0.35rem;
+  font-family: var(--font-accent, var(--font-body));
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-roast);
+}
+
+/* ---------- Card grid: 1 column on phones ---------- */
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(59, 36, 24, 0.22);
+  border-radius: 2px;                       /* almost square, like a printed menu */
+  background-color: rgba(255, 255, 255, 0.4);
+  transition: transform var(--transition), border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.menu-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-caramel);
+  box-shadow: 0 10px 24px rgba(31, 20, 15, 0.12);
+}
+
+.menu-card-media {
+  overflow: hidden;                         /* keeps the zoom inside the frame */
+  aspect-ratio: 4 / 3;                      /* every image the same shape */
+  background: linear-gradient(135deg, var(--color-coffee), var(--color-roast));
+}
+
+.menu-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                        /* fills the frame without stretching */
+  transition: transform 0.6s ease;
+}
+
+.menu-card:hover .menu-card-media img {
+  transform: scale(1.05);
+}
+
+.menu-card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 0.5rem;
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.menu-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.menu-card h3 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.menu-price {
+  flex-shrink: 0;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--color-roast);
+}
+
+.menu-desc {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-roast);
+}
+
+/* ---------- Back button and footer note ---------- */
+.btn-dark {
+  background-color: var(--color-coffee);
+  border-color: var(--color-coffee);
+  color: var(--color-cream);
+}
+
+.btn-dark:hover {
+  background-color: var(--color-caramel);
+  border-color: var(--color-caramel);
+  color: var(--color-black);
+}
+
+.menu-back {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.menu-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(59, 36, 24, 0.2);
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--color-roast);
+}
+
+/* ---------- Tablets: 2 cards per row ---------- */
+@media (min-width: 600px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .menu-main {
+    padding-inline: 2rem;
+  }
+}
+
+/* ---------- Phones: nav scrolls away, category strip sticks to top ---------- */
+@media (max-width: 599px) {
+  .menu-page {
+    --header-h: 0px;
+  }
+
+  .menu-header {
+    position: static;
+  }
+
+  .menu-header .nav {
+    justify-content: center;
+    padding-block: 0.75rem;
+  }
+}
+
+/* ---------- Desktop: left sidebar + exactly 3 cards per row ---------- */
+@media (min-width: 1100px) {
+  .menu-page {
+    --strip-h: 0px;
+  }
+
+  .menu-layout {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    align-items: start;
+  }
+
+  .menu-sidebar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+    height: calc(100vh - var(--header-h));
+    overflow-x: visible;
+    overflow-y: auto;
+    padding: 2.5rem 1.5rem;
+    border-bottom: none;
+    border-right: 1px solid rgba(59, 36, 24, 0.2);
+  }
+
+  .sidebar-title {
+    display: block;
+  }
+
+  .sidebar-list {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .sidebar-list a {
+    padding: 0.75rem 1rem;
+  }
+
+  .menu-main {
+    padding: 3rem 3.5rem 4rem;
+  }
+
+  .menu-grid {
+    grid-template-columns: repeat(3, 1fr);    /* exactly three per row */
+    gap: 2rem;
+  }
+}
+
+/* ---------- Respect people who prefer less motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .menu-card,
+  .menu-card-media img {
+    transition: none;
+  }
+
+  .menu-card:hover,
+  .menu-card:hover .menu-card-media img {
+    transform: none;
+  }
+}
+
+/* ==========================================================
+   10. MENU PAGE POLISH
+   ========================================================== */
+
+/* ---------- Richer palette (only used on the menu page) ---------- */
+.menu-page {
+  --color-mocha: #7a4528;    /* richer coffee brown for accents */
+  --color-ink: #24160e;      /* deep brown-black for headings */
+  --color-paper: #fbf6ec;    /* warm card background */
+  --color-muted: #5f4a3b;    /* softer brown for descriptions */
+}
+
+::selection {
+  background-color: var(--color-mocha);
+  color: var(--color-cream);
+}
+
+/* ---------- Navbar: warmer dark brown with a thin gold-brown edge ---------- */
+.menu-header {
+  background-color: rgba(38, 23, 15, 0.97);
+  border-bottom: 1px solid rgba(184, 138, 90, 0.35);
+}
+
+/* ---------- Page atmosphere: a faint warm glow in the top corner ---------- */
+.menu-main {
+  counter-reset: menu-section;     /* used for the "No. 01" numbering below */
+  background-image: radial-gradient(
+    ellipse at 100% 0%,
+    rgba(184, 138, 90, 0.14),
+    transparent 55%
+  );
+}
+
+/* ---------- Intro ---------- */
+.menu-intro .menu-eyebrow {
+  color: var(--color-mocha);
+  font-weight: 500;
+}
+
+/* small line before "Binondo, Manila" */
+.menu-intro .menu-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 2.5rem;
+  height: 1px;
+  margin-right: 1rem;
+  vertical-align: middle;
+  background-color: currentColor;
+}
+
+.menu-intro h1 {
+  color: var(--color-ink);
+}
+
+.menu-intro p {
+  color: var(--color-muted);
+}
+
+.menu-note {
+  border-left-color: var(--color-mocha);
+  background-color: rgba(122, 69, 40, 0.08);
+}
+
+/* ---------- Section heading area ---------- */
+.menu-section {
+  position: relative;
+  counter-increment: menu-section;
+  /* more room between the sticky bars and the heading after a sidebar click */
+  scroll-margin-top: calc(var(--header-h) + var(--strip-h) + 2.75rem);
+}
+
+.section-head {
+  position: relative;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.75rem;          /* more space before the divider */
+  border-bottom: 1px solid rgba(90, 58, 40, 0.3);
+}
+
+.section-head h2 {
+  font-size: clamp(2.1rem, 3.6vw, 3rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: 0.14em;
+  color: var(--color-ink);          /* strong contrast on cream */
+}
+
+.section-head p {
+  margin-top: 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: var(--color-mocha);
+}
+
+/* ---------- Section separators: fading line with a small diamond ---------- */
+.menu-section:not(:last-of-type)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2.25rem;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(90, 58, 40, 0.4) 20%,
+    rgba(90, 58, 40, 0.4) 80%,
+    transparent
+  );
+}
+
+.menu-section:not(:last-of-type)::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(-2.25rem - 5px);
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--color-caramel);
+  background-color: var(--color-cream);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* ---------- Cards: framed like a printed menu ---------- */
+.menu-card {
+  padding: 0.75rem;                              /* the "mat" around the photo */
+  border: 1px solid rgba(90, 58, 40, 0.22);
+  background-color: var(--color-paper);
+  box-shadow:
+    0 1px 2px rgba(36, 22, 14, 0.06),
+    0 8px 20px rgba(36, 22, 14, 0.06);             /* gentle, not heavy */
+}
+
+.menu-card:hover {
+  border-color: var(--color-mocha);
+  box-shadow:
+    0 2px 4px rgba(36, 22, 14, 0.08),
+    0 16px 32px rgba(36, 22, 14, 0.14);
+}
+
+/* thin inner border on the photo */
+.menu-card-media {
+  position: relative;
+}
+
+.menu-card-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 0 1px rgba(36, 22, 14, 0.15);
+  pointer-events: none;
+}
+
+.menu-card-body {
+  gap: 0.75rem;
+  padding: 1.35rem 0.75rem 0.75rem;
+}
+
+/* name + price row, with a dotted line like a classic menu */
+.menu-card-head {
+  padding-bottom: 0.85rem;
+  border-bottom: 1px dotted rgba(90, 58, 40, 0.45);
+}
+
+/* ---------- Typography: four clearly different roles ---------- */
+.menu-card h3 {                  /* product name: serif, semibold */
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--color-ink);
+}
+
+.menu-price {                    /* price: clean sans, brown, tabular numbers */
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-mocha);
+}
+
+.menu-desc {                     /* description: quiet and readable */
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--color-muted);
+}
+
+/* ---------- Sidebar: indicator bar + smoother hover ---------- */
+.sidebar-list a {
+  position: relative;
+  transition: color 0.35s ease, transform 0.35s ease;
+}
+
+/* the indicator (an underline on phones/tablets, a side bar on desktop) */
+.sidebar-list a::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0.3rem;
+  height: 2px;
+  background-color: var(--color-mocha);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.sidebar-list a:hover {
+  color: var(--color-mocha);
+}
+
+.sidebar-list a:hover::before {
+  transform: scaleX(0.35);       /* a small preview of the indicator */
+}
+
+.sidebar-list a.is-active {
+  background-color: transparent;
+  color: var(--color-ink);
+  text-decoration: none;         /* replaces the old underline */
+}
+
+.sidebar-list a.is-active::before {
+  transform: scaleX(1);
+}
+
+/* little decorative line under "Explore Menu" (desktop only, since the title is hidden elsewhere) */
+.sidebar-title::after {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 1px;
+  margin-top: 1rem;
+  background-color: var(--color-caramel);
+}
+
+@media (min-width: 1100px) {
+  .sidebar-list a {
+    padding-left: 1.5rem;
+  }
+
+  .sidebar-list a::before {
+    top: 0.4rem;
+    right: auto;
+    bottom: 0.4rem;
+    left: 0;
+    width: 3px;
+    height: auto;
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  .sidebar-list a:hover {
+    transform: translateX(4px);
+  }
+
+  .sidebar-list a:hover::before {
+    transform: scaleY(0.4);
+  }
+
+  .sidebar-list a.is-active {
+    transform: translateX(4px);
+  }
+
+  .sidebar-list a.is-active::before {
+    transform: scaleY(1);
+  }
+}
+
+/* ---------- Less motion for people who prefer it ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-list a,
+  .sidebar-list a::before {
+    transition: none;
+  }
+
+  .sidebar-list a:hover,
+  .sidebar-list a.is-active {
+    transform: none;
+  }
+}
+
+/* ==========================================================
+   11. SIDEBAR BOTANICAL BACKGROUND (desktop only)
+   ========================================================== */
+@media (min-width: 1100px) {
+  .menu-sidebar {
+    background-color: var(--color-beige);          /* shows if the image fails to load */
+    background-image: url("../images/sidebar-bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: -0.75rem top;                 /* keeps the leaves and the thin line */
+
+    /* top padding leaves room for the leaves, left padding clears the vertical line */
+    padding: max(9rem, 20vh) 1.5rem 2.5rem 2.75rem;
+  }
+
+  /* slightly darker links so they stay readable over the paper texture */
+  .sidebar-list a {
+    color: #5a4a3d;
+  }
+}
+
+/* ==========================================================
+   12. NAVBAR BACKGROUND IMAGE
+   ========================================================== */
+.menu-header {
+  background-color: #1f140f;                  /* fallback while the image loads */
+  background-image: url("../images/nav-bg.png");
+  background-size: cover;
+  background-position: center 62%;            /* shows the leaves at the far left and right */
+  background-repeat: no-repeat;
+}
+
+/* ==========================================================
+   13. FINAL POLISH
+   ========================================================== */
+
+/* ---------- One shared "feel" for every transition ---------- */
+:root {
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);   /* fast start, soft landing */
+  --transition: 0.35s var(--ease);             /* replaces the old 0.3s ease everywhere */
+}
+
+/* ---------- Text rendering and wrapping ---------- */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  text-wrap: balance;      /* avoids one lonely word on the last line */
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ---------- Navigation links: underline grows from the left ---------- */
+.nav-list a {
+  background-image: linear-gradient(var(--color-caramel), var(--color-caramel));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size var(--transition), color var(--transition);
+}
+
+.nav-list a:hover,
+.nav-list a:focus-visible {
+  background-size: 100% 2px;
+  border-bottom-color: transparent;     /* the old border underline is replaced */
+}
+
+.nav-list a[aria-current="page"] {
+  background-image: linear-gradient(var(--color-cream), var(--color-cream));
+  background-size: 100% 2px;
+  border-bottom-color: transparent;
+}
+
+.logo img {
+  transition: opacity var(--transition);
+}
+
+.logo:hover img {
+  opacity: 0.8;
+}
+
+/* ---------- Buttons: lift on hover, press on click, arrow nudge ---------- */
+.btn {
+  transition: background-color var(--transition), color var(--transition),
+    border-color var(--transition), transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(18, 12, 9, 0.28);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+  transition-duration: 0.1s;
+}
+
+.btn span[aria-hidden="true"] {
+  display: inline-block;
+  transition: transform var(--transition);
+}
+
+.btn:hover span[aria-hidden="true"] {
+  transform: translateX(4px);
+}
+
+/* ---------- Menu page: depth for the sticky bars ---------- */
+.menu-header {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+}
+
+@media (max-width: 1099px) {
+  .menu-sidebar {
+    box-shadow: 0 8px 16px -12px rgba(36, 22, 14, 0.35);
+  }
+}
+
+/* ---------- Menu cards: softer, slower image zoom ---------- */
+.menu-card-media img {
+  transition: transform 0.8s var(--ease);
+}
+
+/* readable text if a photo is missing */
+.menu-card-media {
+  color: var(--color-beige);
+  font-size: 0.9rem;
+}
+
+/* ---------- Keyboard focus: visible on both light and dark areas ---------- */
+.menu-page :focus-visible {
+  outline-color: var(--color-mocha);        /* strong on the cream background */
+}
+
+.menu-header :focus-visible {
+  outline-color: var(--color-caramel);      /* strong on the dark navbar */
+}
+
+/* ---------- Scrollbars that match the palette ---------- */
+html:has(body.menu-page) {
+  scrollbar-color: var(--color-roast) var(--color-cream);
+}
+
+.menu-sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-caramel) transparent;
+}
+
+/* ---------- Very wide screens: keep the menu from stretching too far ---------- */
+@media (min-width: 1100px) {
+  .menu-main {
+    padding-inline: max(3.5rem, calc((100% - 80rem) / 2));
+  }
+}
+
+/* ==========================================================
+   ENTRANCE ANIMATIONS (skipped for people who prefer less motion)
+   ========================================================== */
+@keyframes fade-up {
+  from { opacity: 0; translate: 0 1.25rem; }
+  to   { opacity: 1; translate: 0 0; }
+}
+
+@keyframes hero-drift {
+  from { transform: scale(1.08); }
+  to   { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Hero: text fades up one piece at a time, photo settles slowly */
+  .hero-eyebrow,
+  .hero h1,
+  .hero-text,
+  .hero-actions,
+  .menu-intro {
+    animation: fade-up 0.9s var(--ease) both;
+  }
+
+  .hero h1       { animation-delay: 0.15s; }
+  .hero-text     { animation-delay: 0.3s; }
+  .hero-actions  { animation-delay: 0.45s; }
+
+  .hero::before {
+    animation: hero-drift 16s ease-out both;
+  }
+
+  /* Menu page: headings and cards fade in as you scroll to them.
+     Browsers that don't support this simply show everything normally. */
+  @supports (animation-timeline: view()) {
+    .section-head,
+    .menu-card {
+      animation: fade-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 35%;
+    }
+  }
+}
+
+/* ---------- Respect "reduce motion" settings completely ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
